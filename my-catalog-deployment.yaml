@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: my-catalog
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: my-catalog
+  template:
+    metadata:
+      labels:
+        app: my-catalog
+    spec:
+      containers:
+      - name: my-catalog
+        image: mayusharathod/assessment-task:catalogv1
+        ports:
+        - containerPort: 80

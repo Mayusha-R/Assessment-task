@@ -1,0 +1,37 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: assessment-ingress
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+spec:
+  tls:
+  - hosts:
+      - assessment.local
+    secretName: my-tls-secret
+  rules:
+  - host: assessment.local
+    http:
+      paths:
+      - path: /
+        pathType: Exact
+        backend:
+          service:
+            name: main-frontend-service
+            port:
+              number: 80
+      - path: /catalog
+        pathType: Prefix
+        backend:
+          service:
+            name: my-catalog-service
+            port:
+              number: 80
+      - path: /order
+        pathType: Prefix
+        backend:
+          service:
+            name: my-order-service
+            port:
+              number: 80
